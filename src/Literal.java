@@ -22,4 +22,7 @@ public class Literal {
         String entryString = Arrays.toString(entries.toArray());
         return ""+(char)id+"("+ entryString.substring(1,entryString.length()-1)+")";
     }
+
+
+
 }

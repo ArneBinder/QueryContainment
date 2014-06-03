@@ -1,5 +1,5 @@
 /**
- * Created by myri on 03.06.14.
+ * Created by Arne on 03.06.14.
  */
 public class LiteralEntry {
     byte id;
@@ -14,4 +14,6 @@ public class LiteralEntry {
     public String toString(){
         return ""+(char)id;
     }
+
+
 }
