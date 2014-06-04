@@ -32,6 +32,11 @@ public class ContainmentProblem {
         }
     }
 
+    /**
+     * Depth-First algorithm (according to lecture)
+     * @return true, if query2 is covered by query1, else false
+     * @throws Exception
+     */
     public boolean containsNaive() throws Exception {
         Stack<StackElement> stack = new Stack<>();
         List<Literal> remainingLiterals = new ArrayList<>();
@@ -45,13 +50,27 @@ public class ContainmentProblem {
 
         while (!stack.empty()){
             StackElement curStackElem = stack.pop();
-            mapping = curStackElem.mapping.getCopy();
-            possibleMappings = new ArrayList<>(curStackElem.possibleMappings);
-            remainingLiterals = new ArrayList<>(curStackElem.remainingLiterals);
+            mapping = new Mapping(curStackElem.mapping);
+
+            //notwendig? einzelne Mappings werden eigentlich nicht modifiziert...
+            possibleMappings = new ArrayList<>();
+            for(Mapping tempMapping: curStackElem.possibleMappings){
+                possibleMappings.add(new Mapping(tempMapping));
+            }
+            //possibleMappings = new ArrayList<>(curStackElem.possibleMappings);
+
+            //notwendig? einzelne Literale werden eigentlich nicht modifiziert...
+            remainingLiterals = new ArrayList<>();
+            for(Literal tempLiteral: curStackElem.remainingLiterals){
+                remainingLiterals.add(new Literal(tempLiteral));
+            }
+            //remainingLiterals = new ArrayList<>(curStackElem.remainingLiterals);
+
             if(!possibleMappings.isEmpty()){
                 Mapping currentMapping = possibleMappings.remove(0);
                 stack.push(new StackElement(mapping,possibleMappings,remainingLiterals));
                 if(mapping.isCompatible(currentMapping)){
+                    mapping.mergeMapping(currentMapping);
                     if(remainingLiterals.isEmpty()){
                         return true;
                     }else{

@@ -38,10 +38,13 @@ public class Mapping {
         return map.isEmpty();
     }
 
-    public Mapping getCopy(){
-        Mapping newMapping = new Mapping();
-        newMapping.mergeMapping(this);
-        return newMapping;
+    /**
+     * Copy Constructor
+     * @param other
+     */
+    public Mapping(Mapping other){
+        map = new HashMap<>();
+        map.putAll(other.map);
     }
 
     /**
@@ -53,7 +56,7 @@ public class Mapping {
      */
     public boolean isCompatible(Mapping other){
         for(Map.Entry<Byte, Byte> entry: map.entrySet()){
-            if(!other.map.get(entry.getKey()).equals(entry.getValue())){
+            if(other.map.containsKey(entry.getKey()) && !other.map.get(entry.getKey()).equals(entry.getValue())){
                 return false;
             }
         }

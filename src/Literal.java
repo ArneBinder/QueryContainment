@@ -17,6 +17,16 @@ public class Literal {
         }
     }
 
+    /**
+     * Copy Constructor
+     * @param other
+     */
+    public Literal(Literal other){
+       this.id = other.id;
+       entries = new ArrayList<>();
+       entries.addAll(other.entries);
+    }
+
     @Override
     public String toString(){
         String entryString = Arrays.toString(entries.toArray());

@@ -36,12 +36,12 @@ public class Test {
         //q(a,b,c)-a(a),c(c,c),c(b,c).
         //q(a,b,c)-a(d),a(e),c(c,c),c(a,b).
         Query q1 = new Query("q(a,b,c)-a(a),c(c,c),c(b,c).".getBytes());
-        Query q2 = new Query("q(a,b,c)-a(d),a(e),c(c,c),c(a,b).".getBytes());
+        Query q2 = new Query("q(a,b,c)-x(d),a(e),c(c,c),c(a,b).".getBytes());
         System.out.println("---------------");
         System.out.println(q1);
         System.out.println(q2);
 
-        ContainmentProblem cp = new ContainmentProblem(q2,q1,"true");
+        ContainmentProblem cp = new ContainmentProblem(q2,q1,"");
         System.out.println(cp.containsNaive());
     }
 }
