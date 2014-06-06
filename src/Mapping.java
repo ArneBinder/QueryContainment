@@ -26,7 +26,7 @@ public class Mapping {
         if(from.entries.size()!=to.entries.size())
             throw new Exception("wrong literal size");
         for (int i = 0; i < from.entries.size(); i++) {
-            if(!map.containsKey(from.entries.get(i).id) || map.get(from.entries.get(i).id).equals(to.entries.get(i).id)) {
+            if(isCompatible(from.entries.get(i).id, to.entries.get(i).id) ) {
                 map.put(from.entries.get(i).id, to.entries.get(i).id);
             }else{
                 throw new Exception("already mapped. want to insert "+(char)from.entries.get(i).id+"->"+(char)to.entries.get(i).id+", but is incompatible with "+this);
@@ -56,12 +56,21 @@ public class Mapping {
      */
     public boolean isCompatible(Mapping other){
         for(Map.Entry<Byte, Byte> entry: map.entrySet()){
-            if(other.map.containsKey(entry.getKey()) && !other.map.get(entry.getKey()).equals(entry.getValue())){
+            if( ! isCompatible(entry.getKey(), entry.getValue())){
                 return false;
             }
         }
         return true;
     }
+
+    public boolean isCompatible(byte key, byte value){
+        if(Character.isUpperCase(key) ){
+            if(key != value) return false;
+        } //){ || Character.isUpperCase(value)
+
+        return !map.containsKey(key) || map.get(key).equals(value);
+    }
+
 
     public void mergeMapping(Mapping other){
         map.putAll(other.map);

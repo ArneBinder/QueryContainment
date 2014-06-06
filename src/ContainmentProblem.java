@@ -6,24 +6,24 @@ import java.util.Stack;
  * Created by Arne on 03.06.14.
  */
 public class ContainmentProblem {
-    Query query1;
-    Query query2;
-    byte matches = -1; //-1: unknown; 0: true; 1: false
+    Query query;
+    Query view;
+    byte shouldMatch = -1; //-1: unknown; 0: true; 1: false
 
-    public ContainmentProblem(Query q1, Query q2, String matches){
-        query1 = q1;
-        query2 = q2;
-        if(matches.equals("true")){
-            this.matches = 0;
-        }else if(matches.equals("false")){
-            this.matches = 1;
+    public ContainmentProblem(Query query, Query view, String shouldMatch){
+        this.query = query;
+        this.view = view;
+        if(shouldMatch.equals("true")){
+            this.shouldMatch = 0;
+        }else if(shouldMatch.equals("false")){
+            this.shouldMatch = 1;
         }
     }
 
     class StackElement{
         Mapping mapping; //current mapping
         List<Mapping> possibleMappings;
-        List<Literal> remainingLiterals; //could be realised via an index in the query1.literals list
+        List<Literal> remainingLiterals; //could be realised via an index in the query.literals list
 
         StackElement(Mapping mapping,List<Mapping> possibleMappings,List<Literal> remainingLiterals){
             this.mapping = mapping;
@@ -34,17 +34,18 @@ public class ContainmentProblem {
 
     /**
      * Depth-First algorithm (according to lecture)
-     * @return true, if query2 is covered by query1, else false
+     * @return true, if view is covered by query, else false
      * @throws Exception
      */
     public boolean containsNaive() throws Exception {
         Stack<StackElement> stack = new Stack<>();
+
         List<Literal> remainingLiterals = new ArrayList<>();
-        for (Literal literal: query1.literals){
-            remainingLiterals.add(literal);
-        }
+        remainingLiterals.addAll(query.literals);
+
         Literal firstLiteral = remainingLiterals.remove(0);
-        List<Mapping> possibleMappings = getMappings(firstLiteral, query2.literals);
+
+        List<Mapping> possibleMappings = getMappings(firstLiteral, view.literals);
         Mapping mapping = new Mapping();
         stack.push(new StackElement(mapping,possibleMappings,remainingLiterals));
 
@@ -53,35 +54,45 @@ public class ContainmentProblem {
             mapping = new Mapping(curStackElem.mapping);
 
             //notwendig? einzelne Mappings werden eigentlich nicht modifiziert...
-            possibleMappings = new ArrayList<>();
-            for(Mapping tempMapping: curStackElem.possibleMappings){
-                possibleMappings.add(new Mapping(tempMapping));
-            }
+            possibleMappings = new ArrayList<>(curStackElem.possibleMappings);
+//            for(Mapping tempMapping: curStackElem.possibleMappings){
+//                possibleMappings.add(new Mapping(tempMapping));
+//            }
             //possibleMappings = new ArrayList<>(curStackElem.possibleMappings);
 
             //notwendig? einzelne Literale werden eigentlich nicht modifiziert...
-            remainingLiterals = new ArrayList<>();
-            for(Literal tempLiteral: curStackElem.remainingLiterals){
-                remainingLiterals.add(new Literal(tempLiteral));
-            }
+            remainingLiterals = new ArrayList<>(curStackElem.remainingLiterals);
+//            for(Literal tempLiteral: curStackElem.remainingLiterals){
+//                remainingLiterals.add(new Literal(tempLiteral));
+//            }
             //remainingLiterals = new ArrayList<>(curStackElem.remainingLiterals);
 
             if(!possibleMappings.isEmpty()){
                 Mapping currentMapping = possibleMappings.remove(0);
-                stack.push(new StackElement(mapping,possibleMappings,remainingLiterals));
+                if(possibleMappings.size()>0)
+                    stack.push(new StackElement(new Mapping(mapping),new ArrayList<>(possibleMappings),new ArrayList<>(remainingLiterals)));
                 if(mapping.isCompatible(currentMapping)){
                     mapping.mergeMapping(currentMapping);
-                    if(remainingLiterals.isEmpty()){
-                        return true;
+                     if(remainingLiterals.isEmpty()){
+                        try {
+//                            System.out.println(mapping);
+                            Literal mapped = new Literal(query.head, mapping);
+                            if(view.head.entries.containsAll(mapped.entries)){
+
+                                return true;
+                            }
+                        } catch(IllegalArgumentException e){}
                     }else{
                         firstLiteral = remainingLiterals.remove(0);
-                        possibleMappings = getMappings(firstLiteral, query2.literals);
-                        stack.push(new StackElement(mapping,possibleMappings,remainingLiterals));
+                        possibleMappings = getMappings(firstLiteral, view.literals);
+                        if(possibleMappings.size()>0)
+                            stack.push(new StackElement(mapping,possibleMappings,remainingLiterals));
                     }
                 }
             }
 
         }
+
         return false;
     }
 

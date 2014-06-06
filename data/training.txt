@@ -1,0 +1,97 @@
+// Some things to do
+q(a)-r(a,b),s(a,b),r(o,l),r(a,a),s(b,b),r(u,k),t(l,k),z(u,u),t(o,o).
+q(b)-r(b,b),s(c,c),t(i,i).
+true
+// Test from Dayou
+q(a,b,c)-a(a),c(c,c),c(b,c).
+q(a,b,c)-a(d),a(e),c(c,c),c(a,b).
+true
+// And the other direction
+q(a,b,c)-a(d),a(e),c(c,c),c(a,b).
+q(a,b,c)-a(a),c(c,c),c(b,c).
+false
+// Test which went wrong before correction in mapping constants
+q()-r(A,a,b).
+q()-r(A,b,b).
+false
+// Variable to two constants in body
+q(a)-r(a,A,B),r(a,b,C).
+q(a)-r(a,b,c),r(a,b,b).
+false
+// Example from diss, page 96
+q()-r(a,b),r(b,c).
+q()-r(x,y),r(y,z).
+true
+// Has quite some different containment mappings
+q()-r(a,b),r(b,c),r(c,d),r(d,e).
+q()-r(a,b).
+true
+// Should be much faster by dynamic programming
+q()-r(a,b),s(b,c),s(c,d),s(d,e),s(e,f),t(e,f).
+q()-r(a,b),s(b,c),s(c,d),s(d,e),s(e,f),t(f,f).
+false 
+// Example from diss, page 23
+q(x,y,z)-r(a,c,z),r(x,c,f),r(b,y,f),r(a,d,z).
+q(x,y,z)-r(a,c,z),r(x,c,f),r(b,y,f),r(x,d,e),r(a,d,z).
+true
+// Some more things to do
+q(h)-s(k,k,f,d,g,g,d),s(g,h,f,d,v,h,s),s(g,f,d,a,s,d,f),s(h,g,g,d,d,g,s),s(h,h,v,d,g,h,s).
+q(g)-s(a,g,e,d,f,g,s),s(i,k,f,d,a,x,s),s(i,g,h,e,s,a,d),s(f,g,d,a,s,e,g),s(h,j,t,g,f,d,s).
+false
+// Even more things ... exactly 147 in Depth-first
+q(b)-f(a,b,c),f(b,b,c),f(a,b,c),f(a,b,c),f(a,b,c),f(a,b,b),f(a,b,b).
+q(c)-f(a,b,c),f(b,b,c),f(a,b,b),f(a,c,c).
+false
+// Is contained, but takes longer
+q(a)-s(a,b,c,d,A),s(a,b,c,d,B),s(a,b,c,d,C),s(a,b,c,d,D),s(a,b,c,d,E),s(a,b,c,d,F).
+q(a)-s(a,b,c,d,F),s(a,b,c,d,E),s(a,b,c,d,C),s(a,b,c,d,D),s(a,b,c,d,B),s(a,b,c,d,A).
+true
+// No comments
+q(b,b,b)-r(a,a,a),r(b,b,b),r(c,c,c).
+q(a,b,a)-r(a,b,b),r(b,b,c).
+true
+// Is contained 
+q(a)-r(a,a,a).
+q(b)-r(a,b,b),r(b,b,c).
+true
+// Identical: Is Contained
+q(a,b,c)-r(a,b,c).
+q(a,b,c)-r(a,b,c).
+true
+// Additional join; is contained
+q(a,b,c)-r(a,b,c),s(H).
+q(a,b,c)-r(a,b,c).
+true
+// Redundant literals; is contained
+q(a,b,c)-r(a,b,c).
+q(a,b,c)-r(a,b,c),r(a,b,c).
+true
+// Head wrong arity
+q(b,c)-r(a,b,c),r(a,b,c),s(G).
+q(a,b,c)-r(a,b,c),r(a,b,c),s(G).
+false
+// Missing body pred
+q(a,b,c)-r(a,b,c),r(a,b,c),s(G).
+q(a,b,c)-r(a,b,c),t(D,F,G).
+false
+// Head has wrong variables
+q(a,b,b)-r(a,b,c),r(a,b,c),s(G).
+q(a,b,c)-r(a,b,c),r(a,b,c),s(G).
+false
+// Head wrong mapping to two constants
+q(a,B,A)-r(a,b,c),r(a,b,c),s(G).
+q(a,b,b)-r(a,b,c),r(a,b,c),s(G).
+false
+// Head OK, mapping to two times the same constants
+q(a,B,B)-r(a,b,c),r(a,b,c),s(G).
+q(a,b,b)-r(a,b,c),r(a,b,c),s(G).
+false
+// Head OK, mapping constants to constants
+q(a,B,A)-r(a,b,c),r(a,b,c),s(G).
+q(a,B,A)-r(a,b,c),r(a,b,c),s(G).
+true
+// Constant to wrong constants in body
+q(a,b,b)-r(a,b,c),r(a,b,c),s(J).
+q(a,b,b)-r(a,b,c),r(a,b,c),s(G).
+false
+

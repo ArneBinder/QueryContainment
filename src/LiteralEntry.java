@@ -5,6 +5,10 @@ public class LiteralEntry {
     byte id;
     boolean isConstant = false;
 
+    public LiteralEntry(byte id){
+        this.id = id;
+        isConstant=Character.isUpperCase(id);
+    }
     public LiteralEntry(byte[] chars, int pos) {
         this.id = chars[pos];
         isConstant=Character.isUpperCase(id);
@@ -15,5 +19,9 @@ public class LiteralEntry {
         return ""+(char)id;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        LiteralEntry other = (LiteralEntry) obj;
+        return other.id == id;
+    }
 }
