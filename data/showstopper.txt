@@ -1,0 +1,25 @@
+// Query no. 103a ... really bad if one doesn't find the last literal immediately
+q()-p(b,b,b),s(b,c),q(b,c,b),p(b,c,b),p(c,c,b),s(c,a),p(a,c,b),p(b,a,a),s(c,a),q(b,a,b),q(b,a,b),p(c,b,b),q(a,b,a),p(b,b,b),s(b,b),q(b,a,c),q(b,b,a),s(b,b),q(c,c,b),q(b,b,a),q(b,a,b),p(b,b,c),q(c,c,b),q(c,b,c),q(b,c,b),q(b,c,a),p(b,b,a),s(b,c),d(b,c).
+q()-p(b,c,c),s(b,b),p(a,b,a),p(a,b,c),p(a,b,c),p(b,c,b),p(b,b,b),p(c,a,b),s(b,b),p(b,b,a),p(c,c,c),p(a,b,b),s(c,c),s(a,b),p(b,a,a),s(b,b),p(b,c,c),p(c,b,b),p(a,b,c),p(c,b,b),s(c,b),p(b,b,c),p(c,c,b),s(a,b),p(a,a,a),p(b,b,b),p(b,b,b),p(c,c,c),s(b,b),q(b,c,b),d(b,b).
+false
+// Query no. 146 ... not too bad: 4345312
+q()-q(a,b,c),r(c,c),q(c,c,b),r(a,a),q(a,a,b),r(b,a),r(c,b),q(b,b,b),r(b,c),q(b,b,b),q(b,b,c),r(c,a),q(a,b,b),r(a,b),r(a,a),r(c,b),q(c,b,b),q(b,a,b),r(b,c),r(b,c),r(b,b),r(b,c),q(c,a,b),r(a,c),r(b,b),r(a,c),q(b,c,b),q(a,b,b),q(a,c,a).
+q()-q(a,a,b),q(b,a,b),r(a,a),q(a,a,b),r(c,a),q(b,a,b),q(b,b,b),r(b,b),q(c,a,a),q(c,b,b),q(a,b,b),r(c,b),q(c,b,a),r(b,a),r(b,b),q(a,b,b),r(c,a),q(b,b,b),r(b,b),q(c,c,a),r(a,a),r(a,a),q(c,c,b),r(a,b),r(b,b),q(b,c,c),q(b,b,b),q(c,a,b),q(a,b,b),r(b,a).
+true
+// Query no. 28 ... medium, warming up: 11903977
+q()-r(b,c),r(a,a),s(a,b,c,b),r(b,b),s(b,b,b,c),r(a,a),s(a,c,b,b),s(b,a,a,b),r(b,a),s(a,a,c,b),s(b,b,b,b),s(b,c,b,b),r(b,a),s(c,b,a,b),s(a,b,b,b),s(c,b,b,b),r(a,c),s(a,a,c,b),r(c,b),s(c,b,b,a),r(a,b),s(b,c,a,c),s(a,b,b,b),s(c,a,b,b),r(b,b),s(a,b,b,c),s(b,c,b,c),s(b,a,b,a),r(b,b)
+q()-r(b,b),r(a,b),s(b,b,b,c),r(a,b),s(c,a,b,b),s(a,b,b,c),r(c,b),r(b,b),r(b,b),r(b,b),r(b,c),r(a,b),r(b,b),s(a,c,a,c),r(c,b),s(b,c,b,c),r(c,a),s(b,a,a,a),r(b,c),r(b,a),r(a,b),r(b,b),r(b,b),r(c,a),r(c,b),r(a,b),s(a,b,b,a),s(a,c,b,b),s(c,c,a,b),s(b,a,a,b)
+true
+// Query no. 88 ... medium plus: 20247272
+q()-s(a,c,b),s(b,b,c),p(c,b,b),s(c,c,b),s(b,b,b),q(a,b,a,a),s(a,c,b),q(a,b,c,b),p(b,b,a),s(c,a,b),q(c,c,c,a),s(c,b,b),s(c,c,b),p(c,b,c),s(b,b,b),p(a,a,b),p(b,b,b),p(b,b,a),r(b,b,b),r(a,a,b),p(a,b,a),s(c,a,a),q(b,b,c,b),p(b,b,c),r(b,b,c),p(a,b,b),p(b,a,b),p(b,b,b),p(b,b,b)
+q()-s(a,b,c),p(b,b,a),s(c,b,c),r(b,b,b),p(b,b,b),p(c,c,c),p(b,a,a),p(c,b,c),s(a,a,a),p(c,a,b),r(b,b,a),p(b,b,c),s(b,c,b),p(c,b,b),p(c,b,c),s(b,c,b),p(c,b,b),q(b,c,c,a),s(b,a,a),r(b,a,b),p(a,a,b),p(c,b,b),s(a,c,a),p(b,a,c),p(c,b,b),r(a,b,a),q(c,a,b,c),s(a,b,b),s(b,b,b)
+false
+// Query no. 77 ... already bad: 149605748
+q()-r(b,a,b),r(b,a,a),q(b,c,b),q(b,b,b),r(b,c,b),r(b,a,b),q(b,b,b),q(b,b,a),r(b,a,c),r(b,c,b),q(a,b,a),q(b,b,b),q(c,b,b),q(b,b,a),r(b,c,c),q(a,c,b),q(a,a,b),q(b,a,b),q(b,c,b),r(b,a,b),r(b,b,a),q(b,b,b),r(a,b,c),r(b,b,c),q(b,a,a),r(b,b,a),r(b,a,b),r(a,b,b),r(b,b,b)
+q()-q(b,b,b),r(a,b,b),r(b,b,a),r(b,a,b),q(b,c,a),r(c,c,c),r(b,c,c),q(c,b,a),r(b,b,c),q(b,c,b),q(b,b,c),r(c,a,c),q(c,a,c),q(c,b,b),q(b,b,c),r(b,b,b),r(a,b,b),q(b,b,a),q(b,b,a),q(b,c,a),q(b,b,c),r(b,a,b),r(b,b,b),r(a,a,a),q(c,b,b),r(b,a,b),q(c,b,c),r(b,c,b),q(a,b,a)
+true
+// Query no. 103 ... really bad: more than 14.000 Mill.
+q()-p(b,b,b),s(b,c),q(b,c,b),p(b,c,b),p(c,c,b),s(c,a),p(a,c,b),p(b,a,a),s(c,a),q(b,a,b),q(b,a,b),p(c,b,b),q(a,b,a),p(b,b,b),s(b,b),q(b,a,c),q(b,b,a),s(b,b),q(c,c,b),q(b,b,a),q(b,a,b),p(b,b,c),q(c,c,b),q(c,b,c),q(b,c,b),q(b,c,a),p(b,b,a),s(b,c),s(b,b).
+q()-p(b,c,c),s(b,b),p(a,b,a),p(a,b,c),p(a,b,c),p(b,c,b),p(b,b,b),p(c,a,b),s(b,b),p(b,b,a),p(c,c,c),p(a,b,b),s(c,c),s(a,b),p(b,a,a),s(b,b),p(b,c,c),p(c,b,b),p(a,b,c),p(c,b,b),s(c,b),p(b,b,c),p(c,c,b),s(a,b),p(a,a,a),p(b,b,b),p(b,b,b),p(c,c,c),s(b,b),q(b,c,b),s(c,b).
+unknown
+
