@@ -55,7 +55,7 @@ public class Mapping {
      * @return
      */
     public boolean isCompatible(Mapping other){
-        for(Map.Entry<Byte, Byte> entry: map.entrySet()){
+        for(Map.Entry<Byte, Byte> entry: other.map.entrySet()){
             if( ! isCompatible(entry.getKey(), entry.getValue())){
                 return false;
             }

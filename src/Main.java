@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        String inputPath = "./data/training.txt";
+        String inputPath = "./data/contest.txt";
         if(args.length > 0){
             inputPath = args[0];
         }
@@ -23,12 +23,15 @@ public class Main {
             ContainmentProblem problem = new ContainmentProblem(query, view, lines.get(i+3));
             if(problem.shouldMatch != -1){
                 boolean expectedResult = problem.shouldMatch == 0;
+                System.out.println(lines.get(i));
                 boolean result = problem.containsNaive();
                 if(result != expectedResult ){
-                    System.out.println(lines.get(i));
                     System.out.println(String.format("view  %s\nquery %s\nexpected %s got %s",view, query,expectedResult, result));
                 }
 
+            } else {
+//                System.out.println(lines.get(i));
+                System.out.println(problem.containsNaive());
             }
         }
 

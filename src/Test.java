@@ -11,8 +11,13 @@ public class Test {
 
         //q(a,b,c)-a(a),c(c,c),c(b,c).
         //q(a,b,c)-a(d),a(e),c(c,c),c(a,b).
-        Query view = new Query("q(a,B,A)-r(a,b,c),r(a,b,c),s(G).".getBytes());
-        Query query = new Query("q(a,B,A)-r(a,b,c),r(a,b,c),s(G).".getBytes());
+
+//        Query view = new Query("q(b)-f(a,b,c),f(b,b,c),f(a,b,c),f(a,b,c),f(a,b,c),f(a,b,b),f(a,b,b).".getBytes());
+//        Query query = new Query("q(c)-f(a,b,c),f(b,b,c),f(a,b,b),f(a,c,c).".getBytes());
+
+        // a->a b->b c->b/c
+        Query view =  new Query("q(b)-f(b,b,c),f(a,b,b).".getBytes());
+        Query query = new Query("q(c)-f(b,b,c),f(a,c,c).".getBytes());
         System.out.println("---------------");
         System.out.println(view);
         System.out.println(query);

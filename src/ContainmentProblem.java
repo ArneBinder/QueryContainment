@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
+ *
  * Created by Arne on 03.06.14.
  */
 public class ContainmentProblem {
@@ -61,6 +62,7 @@ public class ContainmentProblem {
             //possibleMappings = new ArrayList<>(curStackElem.possibleMappings);
 
             //notwendig? einzelne Literale werden eigentlich nicht modifiziert...
+
             remainingLiterals = new ArrayList<>(curStackElem.remainingLiterals);
 //            for(Literal tempLiteral: curStackElem.remainingLiterals){
 //                remainingLiterals.add(new Literal(tempLiteral));
