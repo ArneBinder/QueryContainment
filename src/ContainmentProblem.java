@@ -80,8 +80,7 @@ public class ContainmentProblem {
                         try {
 //                            System.out.println(mapping);
                             Literal mapped = new Literal(query.head, mapping);
-                            if (view.head.entries.containsAll(mapped.entries)) {
-
+                            if (view.head.containsAll(mapped)) {
                                 return true;
                             }
                         } catch (IllegalArgumentException e) {

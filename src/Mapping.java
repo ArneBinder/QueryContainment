@@ -23,13 +23,13 @@ public class Mapping {
         map = new HashMap<>();
         if(from.id!=to.id)
             throw new Exception("literal ids are different");
-        if(from.entries.size()!=to.entries.size())
+        if(from.entries.length!=to.entries.length)
             throw new Exception("wrong literal size");
-        for (int i = 0; i < from.entries.size(); i++) {
-            if(isCompatible(from.entries.get(i).id, to.entries.get(i).id) ) {
-                map.put(from.entries.get(i).id, to.entries.get(i).id);
+        for (int i = 0; i < from.entries.length; i++) {
+            if(isCompatible(from.entries[i], to.entries[i]) ) {
+                map.put(from.entries[i], to.entries[i]);
             }else{
-                throw new Exception("already mapped. want to insert "+(char)from.entries.get(i).id+"->"+(char)to.entries.get(i).id+", but is incompatible with "+this);
+                throw new Exception("already mapped. want to insert "+(char)from.entries[i]+"->"+(char)to.entries[i]+", but is incompatible with "+this);
             }
         }
     }

@@ -13,9 +13,12 @@ public class Query {
     Query(byte[] chars){
         List<Literal> tempLiterals = new ArrayList<>();
         int start = 0;
+        Literal possibleLiteral;
         for (int i = 0; i < chars.length; i++) {
             if(chars[i]==')'){
-                tempLiterals.add(new Literal(chars, start, i));
+                possibleLiteral = new Literal(chars, start, i);
+                if(!containsLiteral(tempLiterals, possibleLiteral))
+                    tempLiterals.add(possibleLiteral);
                 start = i+2;
             }
         }
@@ -23,6 +26,14 @@ public class Query {
         Collections.sort(tempLiterals);
        // literals = new Literal[tempLiterals.size()];
         literals = tempLiterals.toArray(new Literal[tempLiterals.size()]);
+    }
+
+    static private boolean containsLiteral(List<Literal> litList, Literal literal){
+        for (Literal thisLiteral: litList){
+            if(thisLiteral.equals(literal))
+                return true;
+        }
+        return false;
     }
 
     @Override

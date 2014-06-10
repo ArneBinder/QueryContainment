@@ -18,8 +18,12 @@ public class Test {
         // a->a b->b c->b/c
         //Query view =  new Query("q(b)-f(b,b,c),f(a,b,b).".getBytes());
         //Query query = new Query("q(c)-f(b,b,c),f(a,c,c).".getBytes());
-        Query view =  new Query("q(a,b,c)-r(a,b,c),r(a,b,c),s(G).".getBytes());
-        Query query = new Query("q(a,b,c)-r(a,b,c),t(D,F,G).".getBytes());
+        //Query view =  new Query("q(a,b,c)-r(a,b,c),r(a,b,c),s(G).".getBytes());
+        //Query query = new Query("q(a,b,c)-r(a,b,c),t(D,F,G).".getBytes());
+        //Query view =  new Query("q()-r(a,b),r(b,c),r(c,d),r(d,e).".getBytes());
+        //Query query = new Query("q()-r(a,b).".getBytes());
+        Query view =  new Query("q(a,B,A)-r(a,b,c),s(G).".getBytes());
+        Query query = new Query("q(a,B,A)-r(a,b,c),s(G).".getBytes());
         System.out.println("---------------");
         System.out.println(view);
         System.out.println(query);
