@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Arne on 03.06.14.
  */
-public class Literal {
+public class Literal implements Comparable<Literal> {
     byte id;
     List<LiteralEntry> entries;
 
@@ -56,4 +56,8 @@ public class Literal {
     }
 
 
+    @Override
+    public int compareTo(Literal o) {
+        return id-o.id;
+    }
 }

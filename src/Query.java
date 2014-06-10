@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -7,23 +8,26 @@ import java.util.List;
  */
 public class Query {
     Literal head;
-    List<Literal> literals;
+    Literal[] literals;
 
     Query(byte[] chars){
-        literals = new ArrayList<>();
+        List<Literal> tempLiterals = new ArrayList<>();
         int start = 0;
         for (int i = 0; i < chars.length; i++) {
             if(chars[i]==')'){
-                literals.add(new Literal(chars,start,i));
+                tempLiterals.add(new Literal(chars, start, i));
                 start = i+2;
             }
         }
-        head = literals.remove(0);
+        head = tempLiterals.remove(0);
+        Collections.sort(tempLiterals);
+       // literals = new Literal[tempLiterals.size()];
+        literals = tempLiterals.toArray(new Literal[tempLiterals.size()]);
     }
 
     @Override
     public String toString(){
-        String literalString = Arrays.toString(literals.toArray());
+        String literalString = Arrays.toString(literals);
         return (head+"-"+ literalString.substring(1,literalString.length()-1)+".").replaceAll(" ","");
     }
 

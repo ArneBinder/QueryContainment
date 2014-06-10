@@ -29,7 +29,7 @@ true
 // Should be much faster by dynamic programming
 q()-r(a,b),s(b,c),s(c,d),s(d,e),s(e,f),t(e,f).
 q()-r(a,b),s(b,c),s(c,d),s(d,e),s(e,f),t(f,f).
-false 
+false
 // Example from diss, page 23
 q(x,y,z)-r(a,c,z),r(x,c,f),r(b,y,f),r(a,d,z).
 q(x,y,z)-r(a,c,z),r(x,c,f),r(b,y,f),r(x,d,e),r(a,d,z).

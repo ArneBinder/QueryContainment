@@ -1,94 +1,99 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
- *
  * Created by Arne on 03.06.14.
  */
 public class ContainmentProblem {
     Query query;
     Query view;
+    HashMap<Byte, int[]> viewPositions;
     byte shouldMatch = -1; //-1: unknown; 0: true; 1: false
 
-    public ContainmentProblem(Query query, Query view, String shouldMatch){
+    public ContainmentProblem(Query query, Query view, String shouldMatch) {
         this.query = query;
         this.view = view;
-        if(shouldMatch.equals("true")){
+        if (shouldMatch.equals("true")) {
             this.shouldMatch = 0;
-        }else if(shouldMatch.equals("false")){
+        } else if (shouldMatch.equals("false")) {
             this.shouldMatch = 1;
         }
+        //System.out.println(query);
+        //System.out.println(view);
+        //calcViewPositions();
+        //System.out.println();
     }
 
-    class StackElement{
+    class StackElement {
         Mapping mapping; //current mapping
         List<Mapping> possibleMappings;
-        List<Literal> remainingLiterals; //could be realised via an index in the query.literals list
+        //List<Literal> remainingLiterals; //could be realised via an index in the query.literals list
+        int literalPos;
 
-        StackElement(Mapping mapping,List<Mapping> possibleMappings,List<Literal> remainingLiterals){
+        StackElement(Mapping mapping, List<Mapping> possibleMappings, int literalPos) {
             this.mapping = mapping;
             this.possibleMappings = possibleMappings;
-            this.remainingLiterals = remainingLiterals;
+            //this.remainingLiterals = remainingLiterals;
+            this.literalPos = literalPos;
         }
     }
 
     /**
      * Depth-First algorithm (according to lecture)
+     *
      * @return true, if view is covered by query, else false
      * @throws Exception
      */
     public boolean containsNaive() throws Exception {
         Stack<StackElement> stack = new Stack<>();
+        int currentLiteralPos = 0;
+        calcViewPositions();
 
-        List<Literal> remainingLiterals = new ArrayList<>();
-        remainingLiterals.addAll(query.literals);
+        //List<Literal> remainingLiterals = new ArrayList<>();
+        //remainingLiterals.addAll(Arrays.asList(query.literals));
 
-        Literal firstLiteral = remainingLiterals.remove(0);
+        //Literal firstLiteral = remainingLiterals.remove(0);
+        Literal firstLiteral = query.literals[currentLiteralPos];
 
-        List<Mapping> possibleMappings = getMappings(firstLiteral, view.literals);
+        List<Mapping> possibleMappings = getMappings(firstLiteral);
+        if(possibleMappings.isEmpty())
+            return false;
         Mapping mapping = new Mapping();
-        stack.push(new StackElement(mapping,possibleMappings,remainingLiterals));
+        //stack.push(new StackElement(mapping,possibleMappings,remainingLiterals));
+        stack.push(new StackElement(mapping, possibleMappings, currentLiteralPos));
 
-        while (!stack.empty()){
+        while (!stack.empty()) {
             StackElement curStackElem = stack.pop();
             mapping = new Mapping(curStackElem.mapping);
 
-            //notwendig? einzelne Mappings werden eigentlich nicht modifiziert...
             possibleMappings = new ArrayList<>(curStackElem.possibleMappings);
-//            for(Mapping tempMapping: curStackElem.possibleMappings){
-//                possibleMappings.add(new Mapping(tempMapping));
-//            }
-            //possibleMappings = new ArrayList<>(curStackElem.possibleMappings);
 
-            //notwendig? einzelne Literale werden eigentlich nicht modifiziert...
-
-            remainingLiterals = new ArrayList<>(curStackElem.remainingLiterals);
-//            for(Literal tempLiteral: curStackElem.remainingLiterals){
-//                remainingLiterals.add(new Literal(tempLiteral));
-//            }
             //remainingLiterals = new ArrayList<>(curStackElem.remainingLiterals);
-
-            if(!possibleMappings.isEmpty()){
+            currentLiteralPos = curStackElem.literalPos;
+            if (!possibleMappings.isEmpty()) {
                 Mapping currentMapping = possibleMappings.remove(0);
-                if(possibleMappings.size()>0)
-                    stack.push(new StackElement(new Mapping(mapping),new ArrayList<>(possibleMappings),new ArrayList<>(remainingLiterals)));
-                if(mapping.isCompatible(currentMapping)){
+                if (possibleMappings.size() > 0)
+                    stack.push(new StackElement(new Mapping(mapping), new ArrayList<>(possibleMappings), currentLiteralPos));
+                if (mapping.isCompatible(currentMapping)) {
                     mapping.mergeMapping(currentMapping);
-                     if(remainingLiterals.isEmpty()){
+                    //if(remainingLiterals.isEmpty()){
+                    if (currentLiteralPos >= query.literals.length) {
                         try {
 //                            System.out.println(mapping);
                             Literal mapped = new Literal(query.head, mapping);
-                            if(view.head.entries.containsAll(mapped.entries)){
+                            if (view.head.entries.containsAll(mapped.entries)) {
 
                                 return true;
                             }
-                        } catch(IllegalArgumentException e){}
-                    }else{
-                        firstLiteral = remainingLiterals.remove(0);
-                        possibleMappings = getMappings(firstLiteral, view.literals);
-                        if(possibleMappings.size()>0)
-                            stack.push(new StackElement(mapping,possibleMappings,remainingLiterals));
+                        } catch (IllegalArgumentException e) {
+                        }
+                    } else {
+
+                        //firstLiteral = remainingLiterals.remove(0);
+                        firstLiteral = query.literals[currentLiteralPos];
+                        currentLiteralPos++;
+                        possibleMappings = getMappings(firstLiteral);
+                        if (possibleMappings.size() > 0)
+                            stack.push(new StackElement(mapping, possibleMappings, currentLiteralPos));
                     }
                 }
             }
@@ -100,24 +105,45 @@ public class ContainmentProblem {
 
     /**
      * Tries to create mapping for every occurrence of selectLiteral in literals.
+     *
      * @param selectLiteral Literal, the elements of literals have to match with.
-     * @param literals List of Literals
      * @return List of Mappings
      */
-    public static List<Mapping> getMappings(Literal selectLiteral, List<Literal> literals){
+    public List<Mapping> getMappings(Literal selectLiteral) {
         List<Mapping> result = new ArrayList<>();
-        for(Literal literal: literals){
-            if(literal.id==selectLiteral.id) {
-                Mapping currentMapping;
-                try {
-                    currentMapping = new Mapping(selectLiteral, literal);
-                }catch(Exception e){
-                    continue;
-                }
-                result.add(currentMapping);
+        //for(Literal literal: view.literals){
+        int[] positions = viewPositions.get(selectLiteral.id);
+        if(positions==null)
+            return result;
+        for (int i = positions[0]; i < positions[1]; i++) {
+
+
+            //if(literal.id==selectLiteral.id) {
+            Mapping currentMapping;
+            try {
+                currentMapping = new Mapping(selectLiteral, view.literals[i]);
+            } catch (Exception e) {
+                continue;
             }
+            result.add(currentMapping);
+            // }
         }
         return result;
+    }
+
+    private void calcViewPositions() {
+        viewPositions = new HashMap<>();
+        byte lastId = view.literals[0].id;
+        int lastStart = 0;
+        for (int i = 1; i < view.literals.length; i++) {
+            if (lastId != view.literals[i].id) {
+                viewPositions.put(lastId, new int[]{lastStart, i});
+                lastStart = i;
+                lastId = view.literals[i].id;
+            }
+        }
+        viewPositions.put(lastId, new int[]{lastStart, view.literals.length});
+
     }
 
 }

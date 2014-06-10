@@ -10,13 +10,14 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        String inputPath = "./data/contest.txt";
+        String inputPath = "./data/showstopper.txt";
         if(args.length > 0){
             inputPath = args[0];
         }
 
         List<String> lines = FileUtils.readLines(new File(inputPath));
 
+        long start = System.currentTimeMillis();
         for (int i = 0; i+3 < lines.size(); i+=4) {
             Query view = new Query(lines.get(i+1).getBytes());
             Query query = new Query(lines.get(i+2).getBytes());
@@ -34,6 +35,7 @@ public class Main {
                 System.out.println(problem.containsNaive());
             }
         }
+        System.out.println((System.currentTimeMillis()-start)+" ms");
 
 
     }
