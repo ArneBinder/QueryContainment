@@ -17,12 +17,16 @@ public class Query {
         for (int i = 0; i < chars.length; i++) {
             if(chars[i]==')'){
                 possibleLiteral = new Literal(chars, start, i);
-                if(!containsLiteral(tempLiterals, possibleLiteral))
-                    tempLiterals.add(possibleLiteral);
+                if(head==null) {
+                    head = possibleLiteral;
+                }else {
+                    if (!containsLiteral(tempLiterals, possibleLiteral))
+                        tempLiterals.add(possibleLiteral);
+                }
                 start = i+2;
             }
         }
-        head = tempLiterals.remove(0);
+        //head = tempLiterals.remove(0);
         Collections.sort(tempLiterals);
        // literals = new Literal[tempLiterals.size()];
         literals = tempLiterals.toArray(new Literal[tempLiterals.size()]);
